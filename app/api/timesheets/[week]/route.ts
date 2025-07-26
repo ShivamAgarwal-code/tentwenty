@@ -56,8 +56,12 @@ const timesheetEntries: Record<string, any> = {
   },
 };
 
-export async function GET(req: NextRequest, context: { params: { week: string } }) {
-  const week = context?.params?.week; // ✅ safely accessed here
+export async function GET(
+  req: NextRequest, 
+  context: { params: Promise<{ week: string }> }
+) {
+  const params = await context.params;
+  const week = params.week;
 
   const weekData = timesheetEntries[week];
 
